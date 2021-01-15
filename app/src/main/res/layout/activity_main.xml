@@ -6,14 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".view.MainActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv"
+    <fragment
+        android:id="@+id/frag_list"
+        android:name="com.americanairlines.myeightapplication.view.ListFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        android:orientation="vertical"
-        tools:layout_editor_absoluteX="193dp"
-        tools:layout_editor_absoluteY="152dp" />
+        android:layout_height="match_parent"/>
 
     <FrameLayout
         android:id="@+id/frag_detail"

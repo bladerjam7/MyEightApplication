@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 
 import com.americanairlines.myeightapplication.R;
 import com.americanairlines.myeightapplication.model.GitResponse;
+import com.americanairlines.myeightapplication.presenter.GitPresenter;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
@@ -37,8 +38,7 @@ public class DetailFragment extends Fragment {
         tvCommit = view.findViewById(R.id.tv_commit);
         tvRepoTitle = view.findViewById(R.id.tv_repo_title);
 
-
-        GitResponse response = getArguments().getParcelable("num1");
+        /*GitResponse response = getArguments().getParcelable("num1");
 
         Glide.with(getContext())
                 .setDefaultRequestOptions(RequestOptions.circleCropTransform())
@@ -48,7 +48,7 @@ public class DetailFragment extends Fragment {
 
         tvAuthor.setText(response.getOwner().getLogin());
         tvCommit.setText(response.getCommentsUrl());
-        tvRepoTitle.setText(response.getName());
+        tvRepoTitle.setText(response.getName());*/
     }
 
 }

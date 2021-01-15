@@ -3,12 +3,15 @@ package com.americanairlines.myeightapplication.view;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 
 import com.americanairlines.myeightapplication.R;
 import com.americanairlines.myeightapplication.model.GitResponse;
 import com.americanairlines.myeightapplication.network.GitRetrofit;
+import com.americanairlines.myeightapplication.presenter.GitPresenter;
+import com.americanairlines.myeightapplication.presenter.GitRespitoryContract;
 import com.americanairlines.myeightapplication.view.adapter.GitAdapterRV;
 
 import java.util.ArrayList;
@@ -18,12 +21,15 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity implements GitAdapterRV.GetDelegate {
+public class MainActivity extends AppCompatActivity implements GitAdapterRV.GetDelegate, GitRespitoryContract.GitView{
 
     private GitRetrofit gitRetrofit = new GitRetrofit();
     private RecyclerView rv;
     private GitAdapterRV adapterRV;
 
+    private GitRespitoryContract.GitPresenter presenter;
+
+    private ListFragment listFragment;
     private DetailFragment detailFragment = new DetailFragment();
 
 
@@ -32,11 +38,22 @@ public class MainActivity extends AppCompatActivity implements GitAdapterRV.GetD
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        rv = findViewById(R.id.rv);
-        adapterRV = new GitAdapterRV(new ArrayList<>(), this);
+        rv = findViewById(R.id.rv_list);
+        //adapterRV = new GitAdapterRV(new ArrayList<>(), this);
 
+        //listFragment = (ListFragment) getSupportFragmentManager().findFragmentById(R.id.frag_list);
 
-        new Thread(){
+        presenter = new GitPresenter(this);
+        try {
+            presenter.getList();
+            Log.d("TAG", "onCreate: ");
+        } catch (InterruptedException e) {
+            Log.d("TAG", "onCreate: Failed");
+
+            e.printStackTrace();
+        }
+
+        /*new Thread(){
             @Override
             public void run() {
                 super.run();
@@ -62,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements GitAdapterRV.GetD
                             }
                         });
             }
-        }.start();
+        }.start();*/
     }
 
     @Override
@@ -75,5 +92,15 @@ public class MainActivity extends AppCompatActivity implements GitAdapterRV.GetD
                 .add(R.id.frag_detail, detailFragment)
                 .addToBackStack(detailFragment.getTag())
                 .commit();
+    }
+
+    @Override
+    public void displayList(Response<List<GitResponse>> response) {
+        Log.d("TAG_X", "displayList: Response: " + response.body());
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
     }
 }
